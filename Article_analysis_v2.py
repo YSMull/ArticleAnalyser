@@ -4,7 +4,7 @@ import re
 
 #读取已掌握单词列表
 def load_known_words():
-	known_file = u"public/known.txt"
+	known_file = u"public/all.txt"
 	infile = open(known_file)
 	known_words = []
 	for eachLine in infile:
@@ -29,11 +29,11 @@ def analysis_article(path_to_article, known_words):
 
 	for sentence in all_sentence:
 		wordsLists+=[(sw.simplify_word(word.lower()), sentence)
-																								for word in re.split("[^A-Za-z]", sentence)
-																												if word != ""
-																												and word[-1].islower()
-																												and word[0].islower()
-																				]
+							for word in re.split("[^A-Za-z]", sentence)
+											if word != ""
+											and word[-1].islower()
+											and word[0].islower()
+							]
 	ZIDIAN = {}
 	for i,a in enumerate(set(wordsLists)):
 		ZIDIAN[a[0]] = a[1]

@@ -1,5 +1,6 @@
 #coding=utf8
 import sys
+import time
 import re
 from PyQt4.QtGui import (QApplication, QDialog,
                         QLabel, QPushButton, QLineEdit, QComboBox, QCheckBox,
@@ -77,6 +78,7 @@ class MainForm(QDialog):
 
     def analysis(self):
         print("in analysis")
+        time1 = time.time()
         try:#每次读取known时建立一个.bak备份吧
             known_words = A_a.load_known_words()
             print "known_words",len(known_words)
@@ -95,8 +97,9 @@ class MainForm(QDialog):
             self.words_to_be_learned_llist.append(words_to_be_learned)
             self.words2sentence_list.append(words_sentence)
 
-
-        Form_analysis = F_a.analysis_Form(self.files_paths_list, self.words_to_be_learned_llist, self.words2sentence_list)
+        time_used = time.time() - time1
+        Form_analysis = F_a.analysis_Form(time_used ,self.files_paths_list,
+                                    self.words_to_be_learned_llist, self.words2sentence_list)
         if Form_analysis.exec_():
             pass
 
