@@ -4,7 +4,7 @@ import re
 
 #读取已掌握单词列表
 def load_known_words():
-	known_file = u"public/all.txt"
+	known_file = u"public/known.txt"
 	infile = open(known_file)
 	known_words = []
 	for eachLine in infile:
