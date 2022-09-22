@@ -2,13 +2,9 @@
 import sys
 import time
 import re
-from PyQt4.QtGui import (QApplication, QDialog,
-                        QLabel, QPushButton, QLineEdit, QComboBox, QCheckBox,
-                        QTableWidget, QTableWidgetItem,
-                        QHBoxLayout,QVBoxLayout,
-                        QIcon, QMessageBox,
-                        QFileDialog, QDesktopServices)
-from PyQt4.QtCore import (Qt, SIGNAL, QString)
+from PyQt6.QtGui import *
+from PyQt6.QtCore import *
+from PyQt6.QtWidgets import *
 
 import Article_analysis_v2 as A_a
 
@@ -47,18 +43,20 @@ class MainForm(QDialog):
 
         self.setLayout(self.layout)
         self.setWindowTitle(u"外文阅读工具")
-
-        self.connect(self.files_Button, SIGNAL("clicked()"), self.addFiles)
-        self.connect(self.analysis_Button, SIGNAL("clicked()"), self.analysis)
+        
+        self.files_Button.clicked.connect(self.addFiles)
+        self.analysis_Button.clicked.connect(self.analysis)
 
     def addFiles(self):
         print("addFiles")
-        files = QFileDialog.getOpenFileNames(self, "Select Music Files",
-            QDesktopServices.storageLocation(QDesktopServices.DocumentsLocation))
+        locations = QStandardPaths.standardLocations(QStandardPaths.StandardLocation.DocumentsLocation)
+        if not locations:
+            return
+        files, _ = QFileDialog.getOpenFileNames(self, "Select Music Files", locations[0])
         if not files:
             return
         self.files_paths_list = files
-        print "len_list = {0}".format(len(self.files_paths_list))
+        print("len_list = {0}".format(len(self.files_paths_list)))
         self.refresh_files_table()
 
     def refresh_files_table(self):
@@ -81,7 +79,7 @@ class MainForm(QDialog):
         time1 = time.time()
         try:#每次读取known时建立一个.bak备份吧
             known_words = A_a.load_known_words()
-            print "known_words",len(known_words)
+            print("known_words", len(known_words))
         except:
             QMessageBox.warning(self, u"Error", u"known.txt not found!")
             return
@@ -109,7 +107,7 @@ def main():
     app = QApplication(sys.argv)
     main_form = MainForm()
     main_form.show()
-    app.exec_()
+    app.exec()
 
 
 if __name__ == '__main__':

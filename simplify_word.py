@@ -1,9 +1,9 @@
 #coding=utf8
-import en
+from pattern.en import tag
 import time
 # otherwordlist = []
 def simplify_word(a):
-
+    """
     # print "[{0}],正在分析词汇: {1}".format(time.ctime().split()[3], a),
 
     try:#测试是否为动词,如果是则返回
@@ -40,3 +40,6 @@ def simplify_word(a):
     #这么屌的库都不认识的单词还返回个毛线，自己查字典去...
 
     #return a
+    """
+    _ = tag(a)
+    return a

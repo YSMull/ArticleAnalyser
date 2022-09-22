@@ -1,8 +1,9 @@
 #coding=utf8
-from PyQt4.QtGui import *
-from PyQt4.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtCore import *
+from PyQt6.QtWidgets import *
 import re
-import en
+from pattern.en import tag
 class analysis_Form(QDialog):
 
     def __init__(self, time_used, files_paths_list, words_to_be_learned_llist, words2sentence_list, parent = None):
@@ -61,7 +62,7 @@ class analysis_Form(QDialog):
         QMessageBox.information(self, u"分析完毕", u"耗时{0}秒".format(time_used))
 
     def refresh_files_table(self):
-    	print("refresh_files_table_in_analysis_Form")
+        print("refresh_files_table_in_analysis_Form")
         self.files_table.clear()
 
         self.Y_MAX = len(self.files_paths_list)
@@ -77,10 +78,10 @@ class analysis_Form(QDialog):
             self.files_table.setItem(y, 0, item)
 
     def refresh_words_table(self):
-    	print("refresh_words_table")
+        print("refresh_words_table")
 
-    	self.words_list_Table.clear()
-    	self.Y_MAX = len(self.words_to_be_learned_llist[self.files_table.currentRow()])#文件列表的第几个文件
+        self.words_list_Table.clear()
+        self.Y_MAX = len(self.words_to_be_learned_llist[self.files_table.currentRow()])#文件列表的第几个文件
         self.X_MAX = 1
         self.words_list_Table.setColumnCount(self.X_MAX)
         self.words_list_Table.setRowCount(self.Y_MAX)
@@ -122,7 +123,7 @@ class analysis_Form(QDialog):
         counter = 0
         verb_exp_list = []
         while True:
-            verb_exp = en.verb.gloss(tword, counter)
+            verb_exp = "" # TODO en.verb.gloss(tword, counter)
             if verb_exp == "":
                 break;
             counter = counter + 1
