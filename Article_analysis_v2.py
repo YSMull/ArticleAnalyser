@@ -5,27 +5,25 @@ import re
 #读取已掌握单词列表
 def load_known_words():
 	known_file = u"public/known.txt"
-	infile = open(known_file)
-	known_words = []
-	for eachLine in infile:
-	    known_words += [word for word in eachLine.split('\n')
-	                            if word != '']
-	infile.close()
-	return known_words
+	with open(known_file) as infile:
+		known_words = []
+		for eachLine in infile:
+			known_words += [word for word in eachLine.split('\n')
+									if word != '']
+		return known_words
 
 
 def analysis_article(path_to_article, known_words):
     #打开要学习的文章
 	filename = path_to_article
-	infile = open(u"{0}".format(filename))
-	all_sentence = []
-	wordsLists = []
-	for eachLine in infile:
-	    #不同编码下的空行有差异，因此限制读入的行的长度必须大于1(万一一行只有一个句子呢？)
-	    #干脆就直接处理吧，反正空行也读不出单词来
-	    #windows下换行符是\r\n，unix下是\n
-	    all_sentence += [sentence for sentence in re.split("[\.]",eachLine) if sentence != ""]
-	infile.close()
+	with open(u"{0}".format(filename)) as infile:
+		all_sentence = []
+		wordsLists = []
+		for eachLine in infile:
+			#不同编码下的空行有差异，因此限制读入的行的长度必须大于1(万一一行只有一个句子呢？)
+			#干脆就直接处理吧，反正空行也读不出单词来
+			#windows下换行符是\r\n，unix下是\n
+			all_sentence += [sentence for sentence in re.split("[\.]",eachLine) if sentence != ""]
 
 	for sentence in all_sentence:
 		wordsLists+=[(sw.simplify_word(word.lower()), sentence)
